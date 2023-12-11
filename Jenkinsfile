@@ -31,7 +31,7 @@ pipeline {
                 script {
                     sh """
                         mkdir -p ${BACKUP_DIR}/${BUILD_NUMBER}
-                        cp -f ${WORKSPACE}/usa-api/target/*.jar ${BACKUP_DIR}/${BUILD_NUMBER}/
+                        cp -f ${WORKSPACE}/target/*.jar ${BACKUP_DIR}/${BUILD_NUMBER}/
                     """
                 }
             }
@@ -72,10 +72,10 @@ pipeline {
                 // 例如，将指定版本的Jar包重新部署到服务器A和B
                 // 需要在Jenkins中设置参数Version
                 sh """
-                    cp -f ${BACKUP_DIR}/${Version}/*.jar ${WORKSPACE}/usa-api/target/
-                    scp ${WORKSPACE}/usa-api/target/*.jar ${SERVER_A}:${DEPLOY_PATH}
+                    cp -f ${BACKUP_DIR}/${Version}/*.jar ${WORKSPACE/target/
+                    scp ${WORKSPACE}/target/*.jar ${SERVER_A}:${DEPLOY_PATH}
                     ssh ${SERVER_A} 'java -jar ${DEPLOY_PATH}/*.jar'
-                    scp ${WORKSPACE}/usa-api/target/*.jar ${SERVER_B}:${DEPLOY_PATH}
+                    scp ${WORKSPACE}/target/*.jar ${SERVER_B}:${DEPLOY_PATH}
                     ssh ${SERVER_B} 'java -jar ${DEPLOY_PATH}/*.jar'
                 """
             }
