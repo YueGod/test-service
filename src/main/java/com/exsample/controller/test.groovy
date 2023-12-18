@@ -22,8 +22,7 @@ node {
 
     // Git config
     def branch = 'master'
-    def credentialsId = '902b3f40-1482-4120-9688-e3ec133ab1e9'
-    def remoteUrl = 'https://code.aliyun.com/sango-server/admin.git'
+    def remoteUrl = 'https://gitee.com/YueGod/test-service.git'
 
     // Push resource and exec command
     def sourceDirectory = mavenModule == null ? 'target/' : "${mavenModule}/target/"
@@ -39,7 +38,7 @@ node {
 
                 // for display purposes
                 // Get some code from a GitHub repository
-                git branch: branch, credentialsId: credentialsId, url: remoteUrl
+                git branch: branch, url: remoteUrl
             }
             stage('maven build') {
                 // Get the Maven tool.

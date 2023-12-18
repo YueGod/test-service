@@ -22,8 +22,7 @@ node {
 
     // Git config
     def branch = 'master'
-    def credentialsId = '902b3f40-1482-4120-9688-e3ec133ab1e9'
-    def remoteUrl = 'https://code.aliyun.com/sango-server/admin.git'
+    def remoteUrl = 'https://gitee.com/YueGod/test-service.git'
 
     // Push resource and exec command
     def sourceDirectory = mavenModule == null ? 'target/' : "${mavenModule}/target/"
@@ -39,7 +38,7 @@ node {
 
                 // for display purposes
                 // Get some code from a GitHub repository
-                git branch: branch, credentialsId: credentialsId, url: remoteUrl
+                git branch: branch, url: remoteUrl
             }
             stage('maven build') {
                 // Get the Maven tool.
@@ -64,11 +63,11 @@ node {
 
                 result = input message: '', ok: 'Confirm', parameters: [choice(choices: ['Restore', 'Rollback'], description: '', name: 'action')], submitterParameter: 'operator'
                 switch(result.action) {
-                    // 恢复发布剩余节点
+                // 恢复发布剩余节点
                     case 'Restore':
                         for (hostName in hosts) sshPublish(hostName, sourceFiles, serverName, execCommand)
                         break
-                    // 回滚
+                        // 回滚
                     case 'Rollback':
                         currentBuild.result = 'UNSTABLE'
 
@@ -164,22 +163,22 @@ def getPreSuccessArtifactPath(String serverName, String sourceFiles) {
 def sshPublish(String hostName, String sourceFiles, String serverName, String execCommand) {
     removePrefix = sourceFiles.substring(0, sourceFiles.lastIndexOf("/"))
     sshPublisher(
-        continueOnError: false,
-        failOnError: true,
-        publishers: [
-            sshPublisherDesc(
-               configName: hostName,
-               verbose: true,
-               transfers: [
-                  sshTransfer(
-                     sourceFiles: sourceFiles,
-                     removePrefix: removePrefix,
-                     remoteDirectory: serverName,
-                     execCommand: execCommand
-                  )
-               ]
-            )
-        ]
+            continueOnError: false,
+            failOnError: true,
+            publishers: [
+                    sshPublisherDesc(
+                            configName: hostName,
+                            verbose: true,
+                            transfers: [
+                                    sshTransfer(
+                                            sourceFiles: sourceFiles,
+                                            removePrefix: removePrefix,
+                                            remoteDirectory: serverName,
+                                            execCommand: execCommand
+                                    )
+                            ]
+                    )
+            ]
     )
 }
 
