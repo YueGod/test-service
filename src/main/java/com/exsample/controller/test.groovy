@@ -64,11 +64,11 @@ node {
 
                 result = input message: '', ok: 'Confirm', parameters: [choice(choices: ['Restore', 'Rollback'], description: '', name: 'action')], submitterParameter: 'operator'
                 switch(result.action) {
-                    // 恢复发布剩余节点
+                // 恢复发布剩余节点
                     case 'Restore':
                         for (hostName in hosts) sshPublish(hostName, sourceFiles, serverName, execCommand)
                         break
-                    // 回滚
+                        // 回滚
                     case 'Rollback':
                         currentBuild.result = 'UNSTABLE'
 
@@ -164,22 +164,22 @@ def getPreSuccessArtifactPath(String serverName, String sourceFiles) {
 def sshPublish(String hostName, String sourceFiles, String serverName, String execCommand) {
     removePrefix = sourceFiles.substring(0, sourceFiles.lastIndexOf("/"))
     sshPublisher(
-        continueOnError: false,
-        failOnError: true,
-        publishers: [
-            sshPublisherDesc(
-               configName: hostName,
-               verbose: true,
-               transfers: [
-                  sshTransfer(
-                     sourceFiles: sourceFiles,
-                     removePrefix: removePrefix,
-                     remoteDirectory: serverName,
-                     execCommand: execCommand
-                  )
-               ]
-            )
-        ]
+            continueOnError: false,
+            failOnError: true,
+            publishers: [
+                    sshPublisherDesc(
+                            configName: hostName,
+                            verbose: true,
+                            transfers: [
+                                    sshTransfer(
+                                            sourceFiles: sourceFiles,
+                                            removePrefix: removePrefix,
+                                            remoteDirectory: serverName,
+                                            execCommand: execCommand
+                                    )
+                            ]
+                    )
+            ]
     )
 }
 
